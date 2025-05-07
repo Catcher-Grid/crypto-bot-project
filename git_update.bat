@@ -1,0 +1,9 @@
+@echo off
+title Git Push Project
+echo Добавление всех файлов...
+git add .
+echo Создание коммита...
+git commit -m "Обновление проекта"
+echo Отправка в GitHub...
+git push -u origin main
+pause
