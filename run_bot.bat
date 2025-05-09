@@ -4,5 +4,5 @@ echo Запуск Telegram-команд...
 start cmd /k "python modules\telegram_commands.py"
 timeout /t 3 > nul
 echo Запуск основного бота...
-python modules\main.py
+python main.py
 pause
