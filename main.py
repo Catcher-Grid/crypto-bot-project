@@ -1,4 +1,8 @@
-from modules.beta_ranker import analyze_priorities
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), "modules"))
+
+from beta_ranker import analyze_priorities
 
 print("[MAIN] Анализ приоритетов по β...")
 analyze_priorities()
