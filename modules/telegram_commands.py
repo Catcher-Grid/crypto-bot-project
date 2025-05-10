@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import json
 import time
 from modules.telegram_utils import send_telegram_message
@@ -20,11 +24,9 @@ def handle_status():
         if not positions:
             send_telegram_message("🚫 Нет открытых позиций.")
         else:
-            message = "📊 *Открытые позиции:*
-"
+            message = "📊 *Открытые позиции:*\n"
             for pos in positions:
-                message += f"{pos['symbol']} — {pos['side']} по {pos['entry_price']} USDT
-"
+                message += f"{pos['symbol']} — {pos['side']} по {pos['entry_price']} USDT\n"
             send_telegram_message(message, parse_mode="Markdown")
     except Exception as e:
         send_telegram_message(f"[Ошибка] Невозможно получить позиции: {e}")

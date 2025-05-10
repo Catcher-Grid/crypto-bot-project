@@ -1,59 +1,56 @@
-
 import json
 import os
-from datetime import datetime, timezone
 
-HISTORY_FILE = 'history.json'
+HISTORY_FILE = "history.json"
 
-def log_closed_trade(symbol, side, entry_price, exit_price, result):
-    now = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
-    trade = {
-        'symbol': symbol,
-        'side': side,
-        'entry_price': entry_price,
-        'exit_price': exit_price,
-        'result': result,
-        'timestamp': now
-    }
-    history = load_history()
-    history.append(trade)
-    with open(HISTORY_FILE, 'w') as f:
-        json.dump(history, f, indent=2)
+def get_trade_summary():
+    if not os.path.exists(HISTORY_FILE):
+        return "⚠️ История сделок не найдена."
 
-def load_history():
-    if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, 'r') as f:
-            return json.load(f)
-    return []
+    with open(HISTORY_FILE) as f:
+        trades = json.load(f)
 
-def summarize_history():
-    history = load_history()
-    if not history:
-        return "❌ Нет завершённых сделок."
+    if not trades:
+        return "📭 Сделки отсутствуют."
 
-    summary_lines = ["📉 История сделок:"]
-    total = 0
-    wins = 0
-    losses = 0
-    net = 0
+    total_profit = 0
+    count_win = 0
+    count_loss = 0
 
-    for h in history[-10:]:
-        change = (float(h['exit_price']) - float(h['entry_price'])) / float(h['entry_price'])
-        if h['side'] == 'short':
-            change *= -1
-        percent = change * 100
-        net += percent
-        total += 1
-        if percent > 0:
-            wins += 1
+    for trade in trades:
+        pnl = trade.get("pnl", 0)
+        total_profit += pnl
+        if pnl > 0:
+            count_win += 1
         else:
-            losses += 1
-        summary_lines.append(f"{h['symbol']} | {h['side'].upper()} @ {h['entry_price']} → {h['exit_price']} ({percent:.2f}%)")
+            count_loss += 1
 
-    summary_lines.append("—")
-    summary_lines.append(f"📊 Всего: {total} сделок")
-    summary_lines.append(f"✔ Прибыльных: {wins}")
-    summary_lines.append(f"✘ Убыточных: {losses}")
-    summary_lines.append(f"🏁 Баланс: {net:.2f}%")
+    return (
+        f"📈 Сводка по сделкам (dry-run):\n"
+        f"• Всего: {len(trades)}\n"
+        f"• Прибыльных: {count_win}\n"
+        f"• Убыточных: {count_loss}\n"
+        f"• Итого PnL: {round(total_profit, 2)} USDT"
+    )
 
-    return "\n".join(summary_lines)
+if __name__ == "__main__":
+    print(get_trade_summary())
+
+def log_closed_trade(trade: dict):
+    from datetime import datetime
+
+    trade['timestamp'] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
+    try:
+        if os.path.exists(HISTORY_FILE):
+            with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+                history = json.load(f)
+        else:
+            history = []
+
+        history.append(trade)
+
+        with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f"[ERROR] Не удалось записать сделку в историю: {e}")
