@@ -1,0 +1,112 @@
+{
+  "реализовано": [
+    {
+      "task": "Основной модуль main.py",
+      "done": true
+    },
+    {
+      "task": "Telegram-команды /status, /summary, /reset, /set_tp, /set_sl",
+      "done": true
+    },
+    {
+      "task": "Dry-run логика торговли (фиксация TP/SL)",
+      "done": true
+    },
+    {
+      "task": "Анализ на основе RSI и EMA",
+      "done": true
+    },
+    {
+      "task": "Расчёт β и приоритетов (beta_ranker)",
+      "done": true
+    },
+    {
+      "task": "API-загрузка исторических данных (Binance)",
+      "done": true
+    },
+    {
+      "task": "Telegram-уведомления и отчёты",
+      "done": true
+    }
+  ],
+  "модернизация": [
+    {
+      "task": "Логирование в файл logs/",
+      "done": false
+    },
+    {
+      "task": "Анализ волатильности (ATR, Bollinger)",
+      "done": false
+    },
+    {
+      "task": "Интеграция β в торговую стратегию",
+      "done": false
+    },
+    {
+      "task": "Автообновление данных через API",
+      "done": false
+    },
+    {
+      "task": "Dry-run симуляция исполнения сетки",
+      "done": false
+    },
+    {
+      "task": "Обработка нескольких пар одновременно",
+      "done": false
+    }
+  ],
+  "логика": [
+    {
+      "task": "Автовыбор пары с максимальной β",
+      "done": false
+    },
+    {
+      "task": "Учет β и сигнала при торговле",
+      "done": false
+    },
+    {
+      "task": "Ротация капитала по β",
+      "done": false
+    },
+    {
+      "task": "Confidence-оценка сигнала",
+      "done": false
+    }
+  ],
+  "telegram": [
+    {
+      "task": "Команда /beta — ручной вызов",
+      "done": false
+    },
+    {
+      "task": "Команда /report — дневной свод",
+      "done": false
+    },
+    {
+      "task": "Команда /set_pair — смена пары",
+      "done": false
+    },
+    {
+      "task": "Уведомления о смене тренда",
+      "done": false
+    }
+  ],
+  "инфраструктура": [
+    {
+      "task": "strategy.log и errors.log",
+      "done": false
+    },
+    {
+      "task": "SQLite вместо JSON для истории",
+      "done": false
+    },
+    {
+      "task": "Параметр mode: dry/live",
+      "done": false
+    },
+    {
+      "task": "Docker-сборка или venv",
+      "done": false
+    }
+  ]
+}
